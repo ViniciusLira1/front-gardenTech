@@ -1,0 +1,42 @@
+.navbar {
+  width: 100%;
+  padding: 20px 40px;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  color: #b5f5d6;
+  font-weight: bold;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-login {
+  background: transparent;
+  border: 1px solid #1f9d8f;
+  color: #b5f5d6;
+}
+
+.btn-register {
+  background: #1f9d8f;
+  color: white;
+}

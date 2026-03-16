@@ -1,0 +1,35 @@
+.feature-card {
+  background-color: #052f2c;
+  padding: 30px;
+  border-radius: 12px;
+  width: 260px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  background-color: #1f9d8f;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: white;
+  font-size: 24px;
+}
+
+.feature-title {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.feature-description {
+  color: #b5f5d6;
+  font-size: 14px;
+}
