@@ -1,0 +1,93 @@
+.form-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #021f1f, #043737);
+}
+
+.form-box {
+  width: 400px;
+  padding: 30px;
+  border-radius: 16px;
+  background: #062c2c;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  color: #fff;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group input {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  margin-top: 5px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.checkbox-card {
+  background: #0a3d3d;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.checkbox-card:hover {
+  background: #0f5050;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-primary {
+  background: #2ecc71;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #27ae60;
+}
+
+.btn-secondary {
+  background: #1abc9c;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}

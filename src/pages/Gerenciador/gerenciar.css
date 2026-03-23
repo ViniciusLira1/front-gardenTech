@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* FUNDO */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #021f1f, #043737);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* WRAPPER */
+.wrapper {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* TOPO */
+.top-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  background: #2ecc71;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #022;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: #062c2c;
+  padding: 20px;
+  border-radius: 16px;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* HEADER */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.status {
+  border: 1px solid #2ecc71;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #2ecc71;
+}
+
+/* TEXTOS */
+.location {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 15px;
+}
+
+.sensor-list p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+/* BOTÃO SENSOR */
+.btn-secondary {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  background: #2ecc71;
+  border: none;
+  border-radius: 10px;
+  color: #022;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./zona.css";
 
 type CheckboxGroup = Record<string, boolean>;
 
@@ -46,41 +47,48 @@ export const AdicionarZona = () => {
             type="text"
             value={zonaNome}
             onChange={(e) => setZonaNome(e.target.value)}
+            placeholder="Ex: Área externa"
             required
           />
         </div>
 
-        <div className="checkbox-group">
-          <label>Dispositivo</label>
-          {Object.entries(dispositivos).map(([key, checked]) => (
-            <label key={key} className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={() => handleCheckboxChange("dispositivos", key)}
-              />
-              {key}
-            </label>
-          ))}
+        <div className="section">
+          <span className="section-title">Dispositivos</span>
+          <div className="checkbox-grid">
+            {Object.entries(dispositivos).map(([key, checked]) => (
+              <label key={key} className="checkbox-card">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => handleCheckboxChange("dispositivos", key)}
+                />
+                {key}
+              </label>
+            ))}
+          </div>
         </div>
 
-        <div className="checkbox-group">
-          <label>Sensor</label>
-          {Object.entries(sensores).map(([key, checked]) => (
-            <label key={key} className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={() => handleCheckboxChange("sensores", key)}
-              />
-              {key}
-            </label>
-          ))}
+        <div className="section">
+          <span className="section-title">Sensores</span>
+          <div className="checkbox-grid">
+            {Object.entries(sensores).map(([key, checked]) => (
+              <label key={key} className="checkbox-card">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() => handleCheckboxChange("sensores", key)}
+                />
+                {key}
+              </label>
+            ))}
+          </div>
         </div>
 
-        <button type="submit">Adicionar</button>
-        <button type="button" onClick={() => { /* cancelar, limpar ou voltar */ }}>Cancelar</button>
+        <div className="button-group">
+          <button type="submit" className="btn-primary">Adicionar</button>
+          <button type="button" className="btn-secondary">Cancelar</button>
+        </div>
       </form>
     </div>
   );
-}
+};

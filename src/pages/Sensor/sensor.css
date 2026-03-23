@@ -1,0 +1,114 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* FUNDO */
+.form-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #021f1f, #043737);
+}
+
+/* CARD */
+.form-box {
+  width: 400px;
+  padding: 30px;
+  border-radius: 16px;
+  background: #062c2c;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  color: #fff;
+}
+
+/* TÍTULO */
+.form-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* INPUTS */
+.input-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group label {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.input-group input,
+.input-group select {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  background: #021f1f;
+  color: #fff;
+}
+
+/* CHECKBOX */
+.section {
+  margin-top: 15px;
+}
+
+.section-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.checkbox-card {
+  background: #0a3d3d;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.checkbox-card:hover {
+  background: #0f5050;
+}
+
+/* BOTÕES */
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  flex: 1;
+  background: #2ecc71;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #27ae60;
+}
+
+.btn-secondary {
+  flex: 1;
+  background: transparent;
+  border: 1px solid #2ecc71;
+  color: #2ecc71;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
