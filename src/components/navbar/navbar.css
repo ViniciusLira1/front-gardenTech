@@ -1,42 +1,109 @@
+/* NAVBAR BASE */
 .navbar {
-  width: 100%;
-  padding: 20px 40px;
+  position: relative;
+  z-index: 1000;
 }
 
-.navbar-container {
+/* TOPO */
+.navbar-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 20px 30px;
+  background: #021f1f;
+  color: white;
 }
 
-.logo {
+/* HAMBURGER */
+.hamburger {
+  width: 30px;
+  height: 22px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
-  color: #b5f5d6;
-  font-weight: bold;
-}
-
-.nav-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.btn {
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  flex-direction: column;
+  justify-content: space-between;
   cursor: pointer;
 }
 
-.btn-login {
-  background: transparent;
-  border: 1px solid #1f9d8f;
-  color: #b5f5d6;
+.hamburger span {
+  height: 3px;
+  background: #2ecc71;
+  border-radius: 2px;
+  transition: 0.3s;
 }
 
-.btn-register {
-  background: #1f9d8f;
+/* ANIMAÇÃO */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* MENU */
+.menu {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  background: #062c2c;
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.menu.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* LINKS */
+.menu a {
   color: white;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.menu a:hover {
+  background: #0a3d3d;
+}
+
+
+
+/* CONTAINER DO LOGO */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* IMAGEM */
+.logo-img {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+/* TEXTO */
+.logo-text {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+
+  /* 🔥 cor principal do sistema */
+  color: #2ecc71;
 }

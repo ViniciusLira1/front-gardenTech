@@ -1,0 +1,187 @@
+/* RESET */
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* FUNDO DA PÁGINA */
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #021f1f, #043737);
+  display: flex;
+  justify-content: center;
+}
+
+/* CONTEÚDO CENTRAL */
+.dashboard-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 40px 20px;
+}
+
+/* BOTÃO SUPERIOR */
+.top-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.btn-new {
+  width: 100%;
+  max-width: 900px;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  border: none;
+  padding: 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #021f1f;
+  transition: 0.2s;
+}
+
+.btn-new:hover {
+  transform: scale(1.02);
+}
+
+/* WRAPPER CENTRAL */
+.cards-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* GRID DE CARDS */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+  gap: 25px;
+}
+
+/* CARD */
+.card {
+  background: #062c2c;
+  padding: 20px;
+  border-radius: 16px;
+  width: 320px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* CARD ATIVO */
+.card.active {
+  border: 2px solid #00e5ff;
+}
+
+/* HEADER */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* STATUS */
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.status.on {
+  background: #2ecc71;
+  color: #021f1f;
+}
+
+.status.off {
+  background: #1abc9c;
+  opacity: 0.5;
+}
+
+/* TEXTO */
+.time {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.device {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* BOTÕES */
+.card-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-edit {
+  background: #555;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #2ecc71;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: #e74c3c;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* CONTAINER PRINCIPAL DOS CARDS */
+.cards-container {
+  background: rgba(0, 0, 0, 0.25);
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+/* GRID LADO A LADO */
+.cards-grid {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* BOTÃO EMBAIXO */
+.bottom-action {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-new {
+  width: 100%;
+  max-width: 500px;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  border: none;
+  padding: 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #021f1f;
+  transition: 0.2s;
+}
+
+.btn-new:hover {
+  transform: scale(1.02);
+}

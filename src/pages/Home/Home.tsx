@@ -1,4 +1,4 @@
-import { Navbar } from "../../components/navbar";
+
 import { FeatureCard } from "../../components/FeatureCard";
 
 import { Cpu, Settings, Wifi } from "lucide-react";
@@ -8,12 +8,6 @@ import "./Home.css";
 export const Home = () => {
   return (
     <div className="home">
-
-      <Navbar
-        onLogin={() => console.log("login")}
-        onRegister={() => console.log("register")}
-      />
-
       <section className="hero">
 
         <h1>

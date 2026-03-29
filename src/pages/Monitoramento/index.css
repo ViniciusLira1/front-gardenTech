@@ -1,0 +1,122 @@
+/* FUNDO */
+.monitor-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #021f1f, #043737);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+/* CONTAINER PRINCIPAL */
+.monitor-container {
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  gap: 30px;
+}
+
+/* ESQUERDA */
+.left-panel {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.online {
+  color: #2ecc71;
+}
+
+/* BOX INFO */
+.info-box {
+  background: #062c2c;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* BOTÕES */
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background: #2ecc71;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #1abc9c;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.btn-danger {
+  background: #e74c3c;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* DIREITA */
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* GRÁFICOS */
+.chart-box {
+  background: #062c2c;
+  padding: 20px;
+  border-radius: 16px;
+}
+/* CARD ESQUERDO (RESOLVE O PROBLEMA) */
+.left-card {
+  background: #062c2c;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* TÍTULO MAIS BONITO */
+.left-card h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* MELHORA OS INFO BOX */
+.info-box {
+  background: #0a3d3d;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  flex: 1; /* 🔥 faz todos terem o mesmo tamanho */
+  text-align: center;
+}
