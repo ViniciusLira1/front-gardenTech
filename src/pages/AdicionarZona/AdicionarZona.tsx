@@ -1,17 +1,20 @@
 import { useState } from "react";
+import { api } from "../../services/api";
 import "./zona.css";
 
 type CheckboxGroup = Record<string, boolean>;
 
 export const AdicionarZona = () => {
   const [zonaNome, setZonaNome] = useState("");
+
   const [dispositivos, setDispositivos] = useState<CheckboxGroup>({
-    "ESP32-001": true,
-    "ESP32-002": false,
+    "1": true,   // 🔥 agora IDs reais
+    "2": false,
   });
+
   const [sensores, setSensores] = useState<CheckboxGroup>({
-    "SENSOR-001": true,
-    "SENSOR-002": false,
+    "1": true,
+    "2": false,
   });
 
   const handleCheckboxChange = (group: "dispositivos" | "sensores", key: string) => {
@@ -22,18 +25,56 @@ export const AdicionarZona = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
+
+    const dispositivosSelecionados = Object.entries(dispositivos)
+      .filter(([_, v]) => v)
+      .map(([k]) => k);
+
+    const sensoresSelecionados = Object.entries(sensores)
+      .filter(([_, v]) => v)
+      .map(([k]) => k);
+
+    console.log("🔥 Dados brutos:", {
       zonaNome,
-      dispositivos: Object.entries(dispositivos)
-        .filter(([_, v]) => v)
-        .map(([k]) => k),
-      sensores: Object.entries(sensores)
-        .filter(([_, v]) => v)
-        .map(([k]) => k),
-    };
-    console.log("Dados Zona:", data);
+      dispositivosSelecionados,
+      sensoresSelecionados
+    });
+
+    if (!zonaNome) {
+      alert("Nome da zona é obrigatório");
+      return;
+    }
+
+    if (dispositivosSelecionados.length === 0 || sensoresSelecionados.length === 0) {
+      alert("Selecione pelo menos um dispositivo e um sensor");
+      return;
+    }
+
+    try {
+      const response = await api.post("/api/v1/zonas/", {
+        nome_zona: zonaNome,
+        id_controlador: Number(dispositivosSelecionados[0]), // 🔥 pega o primeiro
+        id_sensor: Number(sensoresSelecionados[0])
+      });
+
+      console.log("✅ Zona criada:", response.data);
+
+      alert("Zona criada com sucesso!");
+
+      // reset simples
+      setZonaNome("");
+
+    } catch (error: any) {
+      console.error("❌ Erro ao criar zona:", error);
+
+      if (error.response) {
+        alert(error.response.data.detail);
+      } else {
+        alert("Erro ao conectar com o servidor");
+      }
+    }
   };
 
   return (
@@ -62,7 +103,7 @@ export const AdicionarZona = () => {
                   checked={checked}
                   onChange={() => handleCheckboxChange("dispositivos", key)}
                 />
-                {key}
+                Controlador {key}
               </label>
             ))}
           </div>
@@ -78,7 +119,7 @@ export const AdicionarZona = () => {
                   checked={checked}
                   onChange={() => handleCheckboxChange("sensores", key)}
                 />
-                {key}
+                Sensor {key}
               </label>
             ))}
           </div>
@@ -92,3 +133,4 @@ export const AdicionarZona = () => {
     </div>
   );
 };
+

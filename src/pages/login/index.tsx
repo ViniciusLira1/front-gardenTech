@@ -11,30 +11,40 @@ export default function Login() {
   ];
 
   const handleLogin = async (data: Record<string, string>) => {
-    try {
-      const response = await api.post("/api/v1/users/login", {
-        email: data.email,
-        senha: data.senha
-      });
+  console.log("🔥 Dados do formulário:", data);
+  console.log("🌐 Base URL:", api.defaults.baseURL);
 
-      console.log("LOGIN OK:", response.data);
+  try {
+    const response = await api.post("/api/v1/users/login", {
+      email: data.email,
+      senha: data.senha
+    });
 
-      // 🔥 salva usuário
-      localStorage.setItem("user_id", response.data.user_id);
+    console.log("✅ RESPONSE COMPLETA:", response);
+    console.log("✅ DATA:", response.data);
 
-      // 🔥 redireciona
-      navigate("/");
+    localStorage.setItem("user_id", response.data.user_id);
 
-    } catch (error: any) {
-      console.error("ERRO:", error);
+    navigate("/home");
 
-      if (error.response) {
-        alert(error.response.data.detail);
-      } else {
-        alert("Erro ao conectar com o servidor");
-      }
+  } catch (error: any) {
+    console.error("❌ ERRO COMPLETO:", error);
+
+    if (error.response) {
+      console.error("📡 RESPONSE ERROR:", error.response);
+      console.error("📡 DATA:", error.response.data);
+      console.error("📡 STATUS:", error.response.status);
+
+      alert(error.response.data.detail);
+    } else if (error.request) {
+      console.error("📡 REQUEST (sem resposta):", error.request);
+      alert("Servidor não respondeu (API offline ou URL errada)");
+    } else {
+      console.error("⚠️ ERRO DESCONHECIDO:", error.message);
+      alert("Erro inesperado");
     }
-  };
+  }
+};
 
   return (
     <Formulario

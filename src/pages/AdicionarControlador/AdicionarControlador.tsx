@@ -1,7 +1,8 @@
+
 import Formulario from "../../components/formulario/formulario";
+import { api } from "../../services/api";
 
 export const AdicionarControlador = () => {
-  // seu componente aqui
 
   const campos = [
     { label: "Nome do Dispositivo", name: "deviceName", type: "text" },
@@ -10,9 +11,54 @@ export const AdicionarControlador = () => {
     { label: "Token", name: "token", type: "text" }
   ];
 
-  const handleSubmit = (data: Record<string, string>) => {
-    console.log("Dados Controlador:", data);
-    // Aqui você pode fazer o POST para a API ou outra lógica
+  const handleSubmit = async (data: Record<string, string>) => {
+    console.log("🔥 Dados Controlador:", data);
+
+    const userId = localStorage.getItem("user_id");
+
+    if (!userId) {
+      alert("Usuário não autenticado");
+      return;
+    }
+
+    try {
+      // ✅ 1. Criar controlador
+      const response = await api.post("/api/v1/controladores/", {
+        nome: data.deviceName,
+        id_usuario: Number(userId)
+      });
+
+      console.log("✅ Controlador criado:", response.data);
+
+      const controladorId = response.data.id_controlador;
+
+      // ✅ 2. Configurar Wi-Fi (opcional)
+      if (data.wifiName && data.wifiPassword) {
+        await api.post(
+          `/api/v1/controladores/${controladorId}/wifi`,
+          null,
+          {
+            params: {
+              ssid: data.wifiName,
+              senha: data.wifiPassword
+            }
+          }
+        );
+
+        console.log("📡 Wi-Fi configurado");
+      }
+
+      alert("Controlador adicionado com sucesso!");
+
+    } catch (error: any) {
+      console.error("❌ Erro:", error);
+
+      if (error.response) {
+        alert(error.response.data.detail);
+      } else {
+        alert("Erro ao conectar com o servidor");
+      }
+    }
   };
 
   return (
@@ -26,4 +72,4 @@ export const AdicionarControlador = () => {
       linkTexto=""
     />
   );
-}
+};

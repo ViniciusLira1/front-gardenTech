@@ -1,101 +1,155 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
+import { api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 import "./sensor.css";
+
+type Controlador = {
+  id_controlador: number;
+  nome: string;
+};
+
 export function Sensor() {
-  const [sensorId, setSensorId] = useState("");
+  const navigate = useNavigate();
+
   const [tipoSensor, setTipoSensor] = useState("Umidade");
   const [tipoMedida, setTipoMedida] = useState("Porcentagem");
 
-  const [dispositivos, setDispositivos] = useState<any>({
-    "ESP32-001": true,
-    "ESP32-002": false,
-  });
+  const [controladores, setControladores] = useState<Controlador[]>([]);
+  const [selecionados, setSelecionados] = useState<Record<number, boolean>>({});
 
-  const handleCheckboxChange = (key: string) => {
-    setDispositivos((prev: any) => ({
+  // 🔥 BUSCAR CONTROLADORES
+  useEffect(() => {
+    const fetchControladores = async () => {
+      try {
+        const response = await api.get("/api/v1/controladores/");
+        console.log("📡 Controladores:", response.data);
+
+        setControladores(response.data);
+
+        // inicializa todos como false
+        const initialState: Record<number, boolean> = {};
+        response.data.forEach((c: Controlador) => {
+          initialState[c.id_controlador] = false;
+        });
+
+        setSelecionados(initialState);
+
+      } catch (error) {
+        console.error("❌ Erro ao buscar controladores:", error);
+      }
+    };
+
+    fetchControladores();
+  }, []);
+
+  const handleCheckboxChange = (id: number) => {
+    setSelecionados(prev => ({
       ...prev,
-      [key]: !prev[key],
+      [id]: !prev[id],
     }));
   };
 
-  // ✅ SÓ UM handleSubmit (corrigido)
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    const data = {
-      sensorId,
-      tipoSensor,
-      tipoMedida,
-      dispositivos: Object.entries(dispositivos)
-        .filter(([_, v]) => v)
-        .map(([k]) => k),
-    };
+    const selecionado = Object.entries(selecionados)
+      .find(([_, v]) => v);
 
-    console.log("Sensor:", data);
+    if (!selecionado) {
+      alert("Selecione um controlador");
+      return;
+    }
+
+    const id_controlador = Number(selecionado[0]);
+
+    try {
+      const payload = {
+        tipo_sensor: tipoSensor,
+        unidade_medida: tipoMedida,
+        id_controlador
+      };
+
+      console.log("📡 Enviando:", payload);
+
+      const response = await api.post("/api/v1/sensores/", payload);
+
+      console.log("✅ Sensor criado:", response.data);
+
+      alert("Sensor criado com sucesso!");
+
+      navigate("/gerenciar"); // 🔥 volta pra tela de dispositivos
+
+    } catch (error: any) {
+      console.error("❌ Erro:", error);
+
+      if (error.response) {
+        alert(error.response.data.detail);
+      } else {
+        alert("Erro ao conectar com o servidor");
+      }
+    }
   };
 
   return (
-   <div className="form-container">
-  <form className="form-box" onSubmit={handleSubmit}>
-    <h2>Adicionar Sensor</h2>
+    <div className="form-container">
+      <form className="form-box" onSubmit={handleSubmit}>
+        <h2>Adicionar Sensor</h2>
 
-    <div className="input-group">
-      <label>ID Sensor</label>
-      <input
-        placeholder="Ex: SENSOR-003"
-        value={sensorId}
-        onChange={(e) => setSensorId(e.target.value)}
-      />
+        <div className="input-group">
+          <label>Tipo de Sensor</label>
+          <select
+            value={tipoSensor}
+            onChange={(e) => setTipoSensor(e.target.value)}
+          >
+            <option>Umidade</option>
+            <option>Temperatura</option>
+          </select>
+        </div>
+
+        <div className="input-group">
+          <label>Tipo de Medida</label>
+          <select
+            value={tipoMedida}
+            onChange={(e) => setTipoMedida(e.target.value)}
+          >
+            <option>Porcentagem</option>
+            <option>Celsius</option>
+          </select>
+        </div>
+
+        <div className="section">
+          <span className="section-title">Controladores</span>
+
+          <div className="checkbox-grid">
+            {controladores.map((ctrl) => (
+              <label key={ctrl.id_controlador} className="checkbox-card">
+                <input
+                  type="checkbox"
+                  checked={selecionados[ctrl.id_controlador] || false}
+                  onChange={() => handleCheckboxChange(ctrl.id_controlador)}
+                />
+                {ctrl.nome}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="button-group">
+          <button type="submit" className="btn-primary">
+            Adicionar
+          </button>
+
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={() => navigate(-1)}
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
     </div>
-
-    <div className="input-group">
-      <label>Tipo de Sensor</label>
-      <select
-        value={tipoSensor}
-        onChange={(e) => setTipoSensor(e.target.value)}
-      >
-        <option>Umidade</option>
-        <option>Temperatura</option>
-      </select>
-    </div>
-
-    <div className="input-group">
-      <label>Tipo de Medida</label>
-      <select
-        value={tipoMedida}
-        onChange={(e) => setTipoMedida(e.target.value)}
-      >
-        <option>Porcentagem</option>
-        <option>Celsius</option>
-      </select>
-    </div>
-
-    <div className="section">
-      <span className="section-title">Dispositivos</span>
-
-      <div className="checkbox-grid">
-        {Object.entries(dispositivos).map(([key, checked]) => (
-          <label key={key} className="checkbox-card">
-            <input
-              type="checkbox"
-              checked={checked as boolean}
-              onChange={() => handleCheckboxChange(key)}
-            />
-            {key}
-          </label>
-        ))}
-      </div>
-    </div>
-
-    <div className="button-group">
-      <button type="submit" className="btn-primary">
-        Adicionar
-      </button>
-
-      <button type="button" className="btn-secondary">
-        Cancelar
-      </button>
-    </div>
-  </form>
-</div>
   );
 }
+
