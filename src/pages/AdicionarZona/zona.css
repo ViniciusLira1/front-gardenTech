@@ -26,12 +26,30 @@ h2 {
   flex-direction: column;
 }
 
-.input-group input {
+.input-group label {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.input-group input,
+.input-group select {
   padding: 10px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #0B453A;
+  background-color: #021d1b;
+  color: #F1F7F6;
   outline: none;
   margin-top: 5px;
+  font-size: 14px;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #2CC295;
+}
+
+.input-group select option {
+  background-color: #021d1b;
 }
 
 .section {

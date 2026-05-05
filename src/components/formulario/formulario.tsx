@@ -15,6 +15,7 @@ type Props = {
   textoRodape: string;
   linkRodape: string;
   linkTexto: string;
+  onCancel?: () => void;
 };
 
 export default function Formulario({
@@ -24,7 +25,8 @@ export default function Formulario({
   onSubmit,
   textoRodape,
   linkRodape,
-  linkTexto
+  linkTexto,
+  onCancel
 }: Props) {
   const [formData, setFormData] = useState<Record<string, string>>({});
 
@@ -57,7 +59,16 @@ export default function Formulario({
           </div>
         ))}
 
-        <button type="submit">{botaoTexto}</button>
+        {onCancel ? (
+          <div className="btn-group">
+            <button type="submit">{botaoTexto}</button>
+            <button type="button" className="btn-cancel" onClick={onCancel}>
+              Cancelar
+            </button>
+          </div>
+        ) : (
+          <button type="submit">{botaoTexto}</button>
+        )}
 
         <p className="footer-text">
           {textoRodape}

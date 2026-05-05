@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const p = require\\('./node_modules/react-chartjs-2/dist/index.cjs'\\); console.log\\(typeof p.Bar\\)\")",
+      "Bash(python -c \"import sys; sys.path.insert\\(0, r'C:\\\\Users\\\\lira2\\\\Documents\\\\Projetos\\\\udemy\\\\horta-back'\\); from core.configs import DBBaseModel; print\\('OK', DBBaseModel\\)\")",
+      "Bash(curl -s http://localhost:8000/ping)",
+      "Bash(curl -s http://localhost:8000/api/v1/users/)",
+      "Bash(python -m json.tool)"
+    ]
+  }
+}

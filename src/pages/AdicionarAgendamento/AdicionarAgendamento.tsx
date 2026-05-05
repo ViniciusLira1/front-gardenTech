@@ -3,17 +3,30 @@ import { api } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import "./form.css";
 
+type Zona = {
+  id_zona_sensor: number;
+  nome_zona: string;
+};
+
+const DIAS = [
+  { key: "dom", label: "DOM" },
+  { key: "seg", label: "SEG" },
+  { key: "ter", label: "TER" },
+  { key: "qua", label: "QUA" },
+  { key: "qui", label: "QUI" },
+  { key: "sex", label: "SEX" },
+  { key: "sab", label: "SAB" },
+];
+
 export function NovoAgendamento() {
   const navigate = useNavigate();
 
   const [nome, setNome] = useState("");
-  const [hora, setHora] = useState("");
-  const [duracao, setDuracao] = useState(10);
-
-  const [controladores, setControladores] = useState<any[]>([]);
-  const [controladorSelecionado, setControladorSelecionado] = useState<number | null>(null);
-
-  const [diasSemana, setDiasSemana] = useState<any>({
+  const [horaInicio, setHoraInicio] = useState("");
+  const [duracaoMinutos, setDuracaoMinutos] = useState(10);
+  const [idZonaSensor, setIdZonaSensor] = useState<number | "">("");
+  const [repetirTodosDias, setRepetirTodosDias] = useState(false);
+  const [diasSelecionados, setDiasSelecionados] = useState<Record<string, boolean>>({
     dom: false,
     seg: true,
     ter: true,
@@ -22,57 +35,48 @@ export function NovoAgendamento() {
     sex: true,
     sab: false,
   });
+  const [ativo, setAtivo] = useState(true);
+  const [zonas, setZonas] = useState<Zona[]>([]);
 
-  // 🔥 buscar controladores
   useEffect(() => {
-    const fetch = async () => {
-      const res = await api.get("/api/v1/controladores/");
-      setControladores(res.data);
-    };
-    fetch();
+    api.get("/api/v1/zonas/").then((res) => setZonas(res.data));
   }, []);
 
   const toggleDia = (dia: string) => {
-    setDiasSemana((prev: any) => ({
-      ...prev,
-      [dia]: !prev[dia],
-    }));
+    setDiasSelecionados((prev) => ({ ...prev, [dia]: !prev[dia] }));
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!controladorSelecionado) {
-      alert("Selecione um controlador");
+    if (!idZonaSensor) {
+      alert("Selecione uma zona");
       return;
     }
 
-    const diasSelecionados = Object.entries(diasSemana)
-      .filter(([_, v]) => v)
-      .map(([k]) => k);
+    const diasCsv = repetirTodosDias
+      ? null
+      : Object.entries(diasSelecionados)
+          .filter(([, v]) => v)
+          .map(([k]) => k)
+          .join(",") || null;
+
+    const payload = {
+      nome,
+      hora_inicio: horaInicio,
+      duracao_minutos: duracaoMinutos,
+      id_zona_sensor: idZonaSensor,
+      repetir_todos_dias: repetirTodosDias,
+      dias_semana: diasCsv,
+      ativo,
+    };
 
     try {
-      const payload = {
-        nome,
-        hora,
-        duracao,
-        dias: diasSelecionados,
-        id_controlador: controladorSelecionado
-      };
-
-      console.log("📡 Enviando:", payload);
-
-      const res = await api.post("/api/v1/agendamento/", payload);
-
-      console.log("✅ Criado:", res.data);
-
-      alert("Agendamento criado!");
-
+      await api.post("/api/v1/agendamento/", payload);
       navigate("/agendamentos");
-
     } catch (error: any) {
-      console.error(error);
-      alert("Erro ao criar agendamento");
+      const detalhe = error?.response?.data?.detail;
+      alert(detalhe ?? "Erro ao criar agendamento");
     }
   };
 
@@ -83,56 +87,98 @@ export function NovoAgendamento() {
 
         <div className="input-group">
           <label>Nome</label>
-          <input value={nome} onChange={(e) => setNome(e.target.value)} />
-        </div>
-
-        <div className="input-group">
-          <label>Horário</label>
-          <input type="time" value={hora} onChange={(e) => setHora(e.target.value)} />
-        </div>
-
-        <div className="input-group">
-          <label>Duração (min)</label>
           <input
-            type="number"
-            value={duracao}
-            onChange={(e) => setDuracao(Number(e.target.value))}
+            type="text"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
           />
         </div>
 
-        <div className="section">
-          <span className="section-title">Dias da Semana</span>
-          <div className="checkbox-grid">
-            {Object.entries(diasSemana).map(([dia, ativo]) => (
-              <label key={dia} className="checkbox-card">
-                <input
-                  type="checkbox"
-                  checked={ativo as boolean}
-                  onChange={() => toggleDia(dia)}
-                />
-                {dia.toUpperCase()}
-              </label>
-            ))}
-          </div>
-        </div>
-
         <div className="input-group">
-          <label>Controlador</label>
+          <label>Zona de Irrigação</label>
           <select
-            onChange={(e) => setControladorSelecionado(Number(e.target.value))}
+            value={idZonaSensor}
+            onChange={(e) => setIdZonaSensor(Number(e.target.value))}
+            required
           >
-            <option value="">Selecione</option>
-            {controladores.map((c) => (
-              <option key={c.id_controlador} value={c.id_controlador}>
-                {c.nome}
+            <option value="">Selecione uma zona</option>
+            {zonas.map((z) => (
+              <option key={z.id_zona_sensor} value={z.id_zona_sensor}>
+                {z.nome_zona}
               </option>
             ))}
           </select>
         </div>
 
-        <div className="button-group">
-          <button className="btn-primary">Criar</button>
-          <button type="button" className="btn-secondary" onClick={() => navigate(-1)}>
+        <div className="input-row">
+          <div className="input-group">
+            <label>Hora de início</label>
+            <input
+              type="time"
+              value={horaInicio}
+              onChange={(e) => setHoraInicio(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label>Duração (min)</label>
+            <input
+              type="number"
+              min={1}
+              value={duracaoMinutos}
+              onChange={(e) => setDuracaoMinutos(Number(e.target.value))}
+              required
+            />
+          </div>
+        </div>
+
+        <div className="toggle-group">
+          <label className="toggle-label">
+            <input
+              type="checkbox"
+              checked={repetirTodosDias}
+              onChange={(e) => setRepetirTodosDias(e.target.checked)}
+            />
+            <span>Repetir todos os dias</span>
+          </label>
+        </div>
+
+        {!repetirTodosDias && (
+          <div className="section">
+            <span className="section-title">Dias da semana</span>
+            <div className="checkbox-grid">
+              {DIAS.map(({ key, label }) => (
+                <label
+                  key={key}
+                  className={`day-chip ${diasSelecionados[key] ? "day-chip--on" : ""}`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={diasSelecionados[key]}
+                    onChange={() => toggleDia(key)}
+                  />
+                  {label}
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="toggle-group">
+          <label className="toggle-label">
+            <input
+              type="checkbox"
+              checked={ativo}
+              onChange={(e) => setAtivo(e.target.checked)}
+            />
+            <span>Ativar imediatamente</span>
+          </label>
+        </div>
+
+        <div className="btn-group">
+          <button type="submit" className="btn-submit">Criar</button>
+          <button type="button" className="btn-cancel" onClick={() => navigate("/agendamentos")}>
             Cancelar
           </button>
         </div>

@@ -1,54 +1,68 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./navbar.css";
 import icon from "/src/img/rosa.png";
 
-
+const LINKS = [
+  { to: "/home", label: "Home" },
+  { to: "/monitoramento", label: "Monitoramento" },
+  { to: "/gerenciar", label: "Controladores" },
+  { to: "/agendamentos", label: "Agendamentos" },
+  { to: "/docs", label: "Docs" },
+];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+
+  const hidden = ["/", "/cadastro"].includes(location.pathname);
+  if (hidden) return null;
 
   return (
-    <div className="navbar">
+    <nav className="navbar">
+      <div className="navbar-inner">
+        {/* LOGO */}
+        <Link to="/home" className="logo" onClick={() => setOpen(false)}>
+          <img src={icon} className="logo-img" alt="GardenTech" />
+          <span className="logo-text">GardenTech</span>
+        </Link>
 
-      {/* TOPO */}
-      <div className="navbar-top">
-        <div className="logo-container">
-         <img src={icon} className="logo-img" />
-          <h2 className="logo-text">GardenTech</h2>
+        {/* LINKS desktop */}
+        <div className="nav-links">
+          {LINKS.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className={`nav-link ${location.pathname === l.to ? "nav-link--active" : ""}`}
+            >
+              {l.label}
+            </Link>
+          ))}
         </div>
-        <div
-          className={`hamburger ${open ? "active" : ""}`}
+
+        {/* HAMBURGER mobile */}
+        <button
+          className={`hamburger ${open ? "hamburger--open" : ""}`}
           onClick={() => setOpen(!open)}
+          aria-label="Menu"
         >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
+          <span /><span /><span />
+        </button>
       </div>
 
-      {/* MENU LATERAL */}
-      <div className={`menu ${open ? "open" : ""}`}>
-
-        <Link to="/home" onClick={() => setOpen(false)}>
-          Home
-        </Link>
-
-        <Link to="/monitoramento" onClick={() => setOpen(false)}>
-          Monitoramento
-        </Link>
-
-        <Link to="/gerenciar" onClick={() => setOpen(false)}>
-          Controladores
-        </Link>
-
-        <Link to="/agendamentos" onClick={() => setOpen(false)}>
-          Agendamentos
-        </Link>
-
-
-
+      {/* MENU MOBILE */}
+      <div className={`mobile-menu ${open ? "mobile-menu--open" : ""}`}>
+        {LINKS.map((l) => (
+          <Link
+            key={l.to}
+            to={l.to}
+            className={`mobile-link ${location.pathname === l.to ? "mobile-link--active" : ""}`}
+            onClick={() => setOpen(false)}
+          >
+            {l.label}
+          </Link>
+        ))}
       </div>
-    </div>
+    </nav>
   );
 }

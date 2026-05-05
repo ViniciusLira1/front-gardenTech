@@ -1,8 +1,9 @@
-
 import Formulario from "../../components/formulario/formulario";
 import { api } from "../../services/api";
+import { useNavigate } from "react-router-dom";
 
 export const AdicionarControlador = () => {
+  const navigate = useNavigate();
 
   const campos = [
     { label: "Nome do Dispositivo", name: "deviceName", type: "text" },
@@ -67,6 +68,7 @@ export const AdicionarControlador = () => {
       campos={campos}
       botaoTexto="Adicionar"
       onSubmit={handleSubmit}
+      onCancel={() => navigate("/gerenciar")}
       textoRodape=""
       linkRodape="#"
       linkTexto=""

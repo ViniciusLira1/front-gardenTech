@@ -9,7 +9,8 @@ import {Sensor} from "./pages/Sensor/index"
 import {GerenciarDispositivos} from "./pages/Gerenciador/index"
 import {Agendamentos} from "./pages/Agendamento/index"
 import {Monitoramento} from "./pages/Monitoramento/index"
- // import {NovoAgendamento} from "./pagas/AdicionarAgendamento/AdicionarAgendamento";
+import {NovoAgendamento} from "./pages/AdicionarAgendamento/AdicionarAgendamento";
+import {Documentacao} from "./pages/Documentacao/index";
 
 
 function App() {
@@ -26,8 +27,8 @@ function App() {
         <Route path="/gerenciar" element={<GerenciarDispositivos />}/>
         <Route path="/agendamentos" element={<Agendamentos/>} />
         <Route path="/monitoramento" element={<Monitoramento/>} />
-        
-
+        <Route path="/adicionar-agendamento" element={<NovoAgendamento />} />
+        <Route path="/docs" element={<Documentacao />} />
       </Routes>
     </BrowserRouter>
   );

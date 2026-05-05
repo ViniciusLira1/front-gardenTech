@@ -59,6 +59,25 @@ button {
   cursor: pointer;
 }
 
+.btn-group {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-group button {
+  flex: 1;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  border: 1px solid #2CC295;
+  color: #2CC295;
+}
+
+.btn-cancel:hover {
+  background-color: rgba(44, 194, 149, 0.1);
+}
+
 .footer-text {
   text-align: center;
   margin-top: 20px;

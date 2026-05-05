@@ -1,0 +1,171 @@
+.form-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #021d1b;
+  padding: 20px;
+}
+
+.form-box {
+  background-color: #032221;
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  border: 1px solid #03624C;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.form-box h2 {
+  color: #F1F7F6;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+/* Dois inputs lado a lado */
+.input-row {
+  display: flex;
+  gap: 16px;
+}
+
+.input-row .input-group {
+  flex: 1;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  color: #F1F7F6;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.input-group input,
+.input-group select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #0B453A;
+  background-color: #021d1b;
+  color: #F1F7F6;
+  outline: none;
+  font-size: 14px;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #2CC295;
+}
+
+.input-group select option {
+  background-color: #021d1b;
+}
+
+/* Seção dias da semana */
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  display: block;
+  color: #F1F7F6;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.checkbox-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.day-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #0B453A;
+  background-color: #021d1b;
+  color: #aaa;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.day-chip input[type="checkbox"] {
+  display: none;
+}
+
+.day-chip--on {
+  background-color: #2CC295;
+  border-color: #2CC295;
+  color: #021d1b;
+}
+
+/* Toggles */
+.toggle-group {
+  margin-bottom: 20px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #F1F7F6;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.toggle-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2CC295;
+  cursor: pointer;
+}
+
+/* Botões */
+.btn-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-submit,
+.btn-cancel {
+  flex: 1;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.15s, background-color 0.15s;
+}
+
+.btn-submit {
+  background-color: #2CC295;
+  border: none;
+  color: #032221;
+}
+
+.btn-submit:hover {
+  opacity: 0.9;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  border: 1px solid #2CC295;
+  color: #2CC295;
+}
+
+.btn-cancel:hover {
+  background-color: rgba(44, 194, 149, 0.1);
+}

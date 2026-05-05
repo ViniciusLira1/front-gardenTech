@@ -1,79 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import "./zona.css";
 
-type CheckboxGroup = Record<string, boolean>;
+type Controlador = { id_controlador: number; nome: string };
+type Sensor = { id_sensor: number; tipo_sensor: string; unidade_medida: string };
 
 export const AdicionarZona = () => {
+  const navigate = useNavigate();
   const [zonaNome, setZonaNome] = useState("");
+  const [controladores, setControladores] = useState<Controlador[]>([]);
+  const [sensores, setSensores] = useState<Sensor[]>([]);
+  const [controladorId, setControladorId] = useState<number | "">("");
+  const [sensorId, setSensorId] = useState<number | "">("");
 
-  const [dispositivos, setDispositivos] = useState<CheckboxGroup>({
-    "1": true,   // 🔥 agora IDs reais
-    "2": false,
-  });
-
-  const [sensores, setSensores] = useState<CheckboxGroup>({
-    "1": true,
-    "2": false,
-  });
-
-  const handleCheckboxChange = (group: "dispositivos" | "sensores", key: string) => {
-    if (group === "dispositivos") {
-      setDispositivos(prev => ({ ...prev, [key]: !prev[key] }));
-    } else {
-      setSensores(prev => ({ ...prev, [key]: !prev[key] }));
-    }
-  };
+  useEffect(() => {
+    Promise.all([
+      api.get("/api/v1/controladores/"),
+      api.get("/api/v1/sensores/"),
+    ]).then(([ctrlRes, sensorRes]) => {
+      setControladores(ctrlRes.data);
+      setSensores(sensorRes.data);
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const dispositivosSelecionados = Object.entries(dispositivos)
-      .filter(([_, v]) => v)
-      .map(([k]) => k);
-
-    const sensoresSelecionados = Object.entries(sensores)
-      .filter(([_, v]) => v)
-      .map(([k]) => k);
-
-    console.log("🔥 Dados brutos:", {
-      zonaNome,
-      dispositivosSelecionados,
-      sensoresSelecionados
-    });
-
-    if (!zonaNome) {
-      alert("Nome da zona é obrigatório");
-      return;
-    }
-
-    if (dispositivosSelecionados.length === 0 || sensoresSelecionados.length === 0) {
-      alert("Selecione pelo menos um dispositivo e um sensor");
+    if (!zonaNome || !controladorId || !sensorId) {
+      alert("Preencha todos os campos");
       return;
     }
 
     try {
-      const response = await api.post("/api/v1/zonas/", {
+      await api.post("/api/v1/zonas/", {
         nome_zona: zonaNome,
-        id_controlador: Number(dispositivosSelecionados[0]), // 🔥 pega o primeiro
-        id_sensor: Number(sensoresSelecionados[0])
+        id_controlador: controladorId,
+        id_sensor: sensorId,
       });
-
-      console.log("✅ Zona criada:", response.data);
-
       alert("Zona criada com sucesso!");
-
-      // reset simples
-      setZonaNome("");
-
+      navigate("/gerenciar");
     } catch (error: any) {
-      console.error("❌ Erro ao criar zona:", error);
-
-      if (error.response) {
-        alert(error.response.data.detail);
-      } else {
-        alert("Erro ao conectar com o servidor");
-      }
+      alert(error?.response?.data?.detail ?? "Erro ao conectar com o servidor");
     }
   };
 
@@ -93,44 +61,45 @@ export const AdicionarZona = () => {
           />
         </div>
 
-        <div className="section">
-          <span className="section-title">Dispositivos</span>
-          <div className="checkbox-grid">
-            {Object.entries(dispositivos).map(([key, checked]) => (
-              <label key={key} className="checkbox-card">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={() => handleCheckboxChange("dispositivos", key)}
-                />
-                Controlador {key}
-              </label>
+        <div className="input-group">
+          <label>Controlador</label>
+          <select
+            value={controladorId}
+            onChange={(e) => setControladorId(Number(e.target.value))}
+            required
+          >
+            <option value="">Selecione um controlador</option>
+            {controladores.map((c) => (
+              <option key={c.id_controlador} value={c.id_controlador}>
+                {c.nome}
+              </option>
             ))}
-          </div>
+          </select>
         </div>
 
-        <div className="section">
-          <span className="section-title">Sensores</span>
-          <div className="checkbox-grid">
-            {Object.entries(sensores).map(([key, checked]) => (
-              <label key={key} className="checkbox-card">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={() => handleCheckboxChange("sensores", key)}
-                />
-                Sensor {key}
-              </label>
+        <div className="input-group">
+          <label>Sensor</label>
+          <select
+            value={sensorId}
+            onChange={(e) => setSensorId(Number(e.target.value))}
+            required
+          >
+            <option value="">Selecione um sensor</option>
+            {sensores.map((s) => (
+              <option key={s.id_sensor} value={s.id_sensor}>
+                Sensor {s.id_sensor} — {s.tipo_sensor} ({s.unidade_medida})
+              </option>
             ))}
-          </div>
+          </select>
         </div>
 
         <div className="button-group">
           <button type="submit" className="btn-primary">Adicionar</button>
-          <button type="button" className="btn-secondary">Cancelar</button>
+          <button type="button" className="btn-secondary" onClick={() => navigate("/gerenciar")}>
+            Cancelar
+          </button>
         </div>
       </form>
     </div>
   );
 };
-
