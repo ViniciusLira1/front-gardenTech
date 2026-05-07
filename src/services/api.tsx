@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:8000", // 🔥 URL DO BACKEND
+  baseURL: "https://horta-back.onrender.com", // 🔥 URL DO BACKEND
   headers: {
     "Content-Type": "application/json",
   },

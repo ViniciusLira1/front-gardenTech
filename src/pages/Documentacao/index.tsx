@@ -167,7 +167,8 @@ export function Documentacao() {
             <div className="docs-section">
               <h1>Back-end (FastAPI)</h1>
               <p className="docs-lead">
-                API REST assíncrona rodando em <code>http://localhost:8000</code>.
+                API REST assíncrona hospedada no <strong>Render.com</strong> em{" "}
+                <code>https://horta-back.onrender.com</code>.
                 Todos os endpoints ficam sob o prefixo <code>/api/v1/</code>.
               </p>
 
@@ -199,15 +200,22 @@ export function Documentacao() {
                 <li>Senhas armazenadas com <strong>SHA-256 + salt</strong> via passlib.</li>
                 <li>Credenciais WiFi criptografadas com <strong>Fernet</strong> (chave em <code>settings.FERNET_KEY</code>).</li>
                 <li>Cada ESP32 tem um <strong>token de vinculação</strong> único (256 bits via <code>secrets.token_urlsafe</code>).</li>
-                <li>CORS liberado para <code>*</code> em desenvolvimento — restringir em produção.</li>
+                <li>CORS liberado para <code>*</code> — aceita requisições de qualquer origem.</li>
               </ul>
 
-              <h2>Como rodar</h2>
+              <h2>Hospedagem (Render.com)</h2>
+              <ul className="docs-list">
+                <li>Deploy automático via <strong>GitHub</strong> — cada push na branch principal faz redeploy.</li>
+                <li>A URL pública é <code>https://horta-back.onrender.com</code>.</li>
+                <li>No plano gratuito o serviço <strong>dorme após 15 min</strong> sem requisições — a primeira chamada pode demorar ~30s para acordar.</li>
+                <li>Para testar se está no ar: <code>GET /ping</code> deve retornar <code>{`{"msg":"pong!"}`}</code>.</li>
+              </ul>
+
+              <h2>Como rodar localmente</h2>
               <pre className="code-block">{`cd horta-back
 python -m venv venv
 venv\\Scripts\\activate     # Windows
 pip install -r requirements.txt
-python seed_data.py          # popula dados de exemplo
 python main.py               # inicia em http://localhost:8000`}</pre>
             </div>
           )}
@@ -252,7 +260,7 @@ npm run dev     # inicia em http://localhost:5173`}</pre>
               <pre className="code-block">{`// src/services/api.tsx
 import axios from "axios";
 export const api = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "https://horta-back.onrender.com",
   headers: { "Content-Type": "application/json" },
 });`}</pre>
             </div>
