@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Server, Cpu, Globe, Database, Wifi, Key, Code2, BookOpen } from "lucide-react";
+import { Server, Cpu, Globe, Database, Key, Code2, BookOpen } from "lucide-react";
 import "./index.css";
 
 type Section = "overview" | "backend" | "frontend" | "iot";
